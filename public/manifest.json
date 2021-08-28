@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "JBoards",
+  "name": "JBoards : VIT J Component Project Management Tool",
   "icons": [
     {
       "src": "favicon.ico",
