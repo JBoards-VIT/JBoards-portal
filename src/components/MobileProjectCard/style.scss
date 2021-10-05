@@ -1,0 +1,27 @@
+@import "../../constants/colors";
+.mobileProjectCard {
+  width: 100%;
+  height: 70px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 1px 0px 50px rgba(159, 162, 166, 0.05);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mobileProjectCard__avatar {
+  padding: 15px;
+}
+.mobileProjectCard__details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.mobileProjectCard__details span {
+  font-size: 14px;
+  color: $text-secondary;
+}

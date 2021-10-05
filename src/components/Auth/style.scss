@@ -1,0 +1,178 @@
+@import "../../constants/colors";
+
+.auth__page {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+}
+.auth__page-left,
+.auth__page-right {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+}
+.auth__page-left {
+  background-color: $background-secondary;
+}
+.auth__page-right {
+  background-color: #fff;
+  padding: 30px 40px;
+}
+.auth__page-right h1 {
+  color: $text-primary;
+  font-weight: 100;
+}
+.auth__page__nav {
+  display: flex;
+  width: 100%;
+  height: 100px;
+  z-index: 90;
+  position: absolute;
+  top: 0;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px 40px;
+}
+.auth__page-left__body {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+.auth__page-left img {
+  width: 80%;
+  object-fit: contain;
+}
+.oauth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.oauth__label {
+  color: $primary;
+  font-size: 14px;
+  margin: 40px 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  width: 100%;
+}
+.oauth__label span {
+  padding: 0 15px;
+  background-color: #fff;
+}
+.oauth__label::before {
+  border-top: 1px solid $text-secondary;
+  content: "";
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: -1;
+}
+.oauth__buttons {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+}
+.oauth__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 277px;
+  height: 50px;
+  background-color: none;
+  border: 1px solid #acacac;
+  border-radius: 5px;
+  font-size: 14px;
+  color: $text-primary;
+  cursor: pointer;
+}
+.oauth__button_img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  margin-right: 7px;
+}
+@media only screen and (max-width: 600px) {
+  .auth__page {
+    flex-direction: column;
+  }
+  .auth__page-left {
+    display: none;
+  }
+  .auth__page-right h1 {
+    font-size: 25px;
+  }
+  .oauth__buttons {
+    flex-direction: column;
+  }
+  .oauth__button:first-of-type {
+    margin-bottom: 10px;
+  }
+  .auth__page__nav {
+    height: 100px;
+    padding: 20px 20px;
+    position: static;
+    z-index: auto;
+  }
+  .auth__page-right {
+    padding: 0 20px;
+    width: 100%;
+  }
+  .oauth__label {
+    margin: 20px 0;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .auth__page {
+    flex-direction: column;
+  }
+  .auth__page-left {
+    display: none;
+  }
+  .auth__page-right h1 {
+    font-size: 25px;
+  }
+  .oauth__buttons {
+    flex-direction: column;
+  }
+  .oauth__button:first-of-type {
+    margin-bottom: 10px;
+  }
+  .auth__page__nav {
+    height: 140px;
+    padding: 40px;
+    position: static;
+    z-index: auto;
+  }
+  .auth__page-right {
+    padding: 0 40px;
+    width: 100%;
+  }
+  .oauth__label {
+    margin: 20px 0;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .auth__page-left img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .oauth__button {
+    width: 250px;
+  }
+}

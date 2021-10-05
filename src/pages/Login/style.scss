@@ -1,0 +1,61 @@
+@import "../../constants/colors";
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.loginFields {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  width: 100%;
+}
+.loginField {
+  width: 45%;
+}
+.loginForm__labels {
+  margin-top: 40px;
+}
+.loginForm__labels span {
+  color: $primary;
+}
+.loginForm__labels p {
+  color: #acacac;
+  margin-top: 10px;
+}
+@media only screen and (max-width: 600px) {
+  .loginForm {
+    align-items: center;
+  }
+  .loginFields {
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  .loginFields:last-of-type {
+    margin-bottom: 30px;
+  }
+  .loginField {
+    width: 90%;
+  }
+  .loginField:first-of-type {
+    margin-bottom: 10px;
+  }
+  .custom_button {
+    width: 90%;
+  }
+  .loginForm__labels {
+    align-self: center;
+    text-align: center;
+  }
+}
+@media only screen and (min-width: 600px) {
+}
+@media only screen and (min-width: 768px) {
+}
+@media only screen and (min-width: 992px) {
+}
+@media only screen and (min-width: 1200px) {
+}

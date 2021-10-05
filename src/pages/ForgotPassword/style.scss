@@ -1,0 +1,30 @@
+@import "../../constants/colors";
+
+.forgotPassword {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.forgotPassword > p {
+  margin: 40px 0;
+  color: $text-secondary;
+  font-size: 16px;
+}
+.forgotPassword__field {
+  width: 50%;
+  margin-bottom: 40px;
+}
+@media only screen and (max-width: 600px) {
+  .forgotPassword__field {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 600px) {
+}
+@media only screen and (min-width: 768px) {
+}
+@media only screen and (min-width: 992px) {
+}
+@media only screen and (min-width: 1200px) {
+}

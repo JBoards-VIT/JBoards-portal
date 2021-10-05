@@ -1,0 +1,13 @@
+@import "../../constants/colors";
+
+.custom_button {
+  width: 235px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $primary;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  color: $primary;
+  cursor: pointer;
+}
