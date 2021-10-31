@@ -1,0 +1,207 @@
+@import "../../constants/colors";
+
+.landing-page {
+  width: 100vw;
+  min-height: 100vh;
+}
+.landing {
+  height: 70vh;
+  width: 100%;
+  background-color: $background-secondary;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.landing__body {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.landing__body-left,
+.landing__body-right {
+  flex: 1;
+}
+.landing__body-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px;
+  height: 100%;
+}
+.landing__body-left h1 {
+  font-size: 50px;
+  color: $text-primary;
+  margin-bottom: 30px;
+  width: 80%;
+}
+.landing__body-left p {
+  font-size: 25px;
+  color: $text-secondary;
+  margin-bottom: 20px;
+  width: 80%;
+}
+.landing__body-right {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.intro {
+  height: 300px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.introSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.introSection__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.introSection__icon {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-color: $background-light;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.introSection__details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.introSection__details h2 {
+  font-size: 20;
+  color: $text-primary;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+.introSection__details p {
+  font-size: 16;
+  color: $text-secondary;
+  width: 80%;
+}
+.features {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.features__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  width: 100%;
+  background-color: $background-light;
+}
+.features__header span {
+  font-size: 20px;
+  color: $text-secondary;
+  font-weight: 700;
+}
+.features__header h1 {
+  font-size: 50px;
+  font-weight: 600;
+  color: $text-primary;
+  width: 50%;
+  text-align: center;
+  margin-top: 5px;
+}
+.featuresSection {
+  height: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.featuresSection-left,
+.featuresSection-right {
+  flex: 1;
+}
+.featuresSection-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.featuresSection-right {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: $background-primary;
+}
+.featuresSection-right h2 {
+  font-size: 40px;
+  color: $text-primary;
+  width: 65%;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+.featuresSection-right p {
+  font-size: 25px;
+  color: $text-secondary;
+  font-weight: 300;
+  width: 50%;
+}
+.get_started {
+  height: 250px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.get_started span {
+  color: $text-secondary;
+  font-size: 20px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.get_started h2 {
+  color: $text-primary;
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 200px;
+  width: 100%;
+  padding: 0 20%;
+  color: $text-secondary;
+}
+.footer span {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+.footer p {
+  font-size: 12px;
+}

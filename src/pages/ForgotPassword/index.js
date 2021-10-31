@@ -48,7 +48,6 @@ const ForgotPasswordForm = () => {
                     value={formik.values.email}
                     type="email"
                     handleChange={formik.handleChange}
-                    handleBlur={formik.handleBlur}
                     error={Boolean(formik.touched.email && formik.errors.email)}
                     helperText={formik.errors.email}
                 />

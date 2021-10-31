@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Auth from '../../components/Auth'
-import login from "../../assets/images/login.svg"
+import loginSvg from "../../assets/images/login.svg"
 import CustomButton from "../../components/CustomButton"
 import { Link } from 'react-router-dom'
 import CustomTextField from '../../components/CustomTextField'
@@ -8,6 +8,9 @@ import "./style.scss"
 import CustomPasswordField from '../../components/CustomPasswordField'
 import { useFormik } from 'formik'
 import * as Yup from "yup"
+import { useDispatch } from 'react-redux'
+import { login } from "../../redux/actions/Auth";
+
 const Login = () => {
     useEffect(() => {
         document.title = "Login"
@@ -16,7 +19,7 @@ const Login = () => {
         <div>
             <Auth
                 showOAuth={true}
-                image={login}
+                image={loginSvg}
                 label="Login"
                 formComponent={<LoginForm />}
             />
@@ -25,12 +28,14 @@ const Login = () => {
 }
 
 const LoginForm = () => {
+    const dispatch = useDispatch();
     const initialValues = {
         email: '',
         password: ''
     }
     const onSubmit = (values) => {
-        console.log(values)
+        console.log(values);
+        dispatch(login())
     }
     const validationSchema = Yup.object({
         email: Yup.string().email('Invalid Email').required('Required'),

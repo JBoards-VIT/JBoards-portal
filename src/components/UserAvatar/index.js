@@ -1,14 +1,18 @@
 import { Avatar, IconButton } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { Link } from "react-router-dom";
+import { logout } from "../../redux/actions/Auth"
+import { useDispatch } from 'react-redux';
 
 const UserAvatar = () => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const dispatch = useDispatch();
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -16,6 +20,9 @@ const UserAvatar = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleLogout = () => {
+        dispatch(logout())
+    }
     const color = "#75cfb8"
     const userLetter = "A"
     const avatarStyle = { width: 40, height: 40, bgcolor: `${color}55`, color: color, fontSize: 23 }
@@ -59,10 +66,12 @@ const UserAvatar = () => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem>
-                    <ListItemIcon>
-                        <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Home
+                    <Link to="/home">
+                        <ListItemIcon>
+                            <Settings fontSize="small" />
+                        </ListItemIcon>
+                        Home
+                    </Link>
                 </MenuItem>
                 <MenuItem>
                     <ListItemIcon>
@@ -77,7 +86,7 @@ const UserAvatar = () => {
                     </ListItemIcon>
                     Settings
                 </MenuItem>
-                <MenuItem>
+                <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>

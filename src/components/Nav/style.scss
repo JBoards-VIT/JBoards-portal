@@ -1,9 +1,23 @@
+@import "../../constants/colors";
+
 .nav {
   height: 100px;
   padding: 20px 40px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.nav__options {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.nav__options span {
+  margin-right: 50px;
+  color: $primary;
+  font-size: 20px;
+  font-weight: 400;
 }
 @media only screen and (max-width: 768px) {
   .nav {

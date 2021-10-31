@@ -84,7 +84,6 @@ const SignupForm = () => {
                         name="password"
                         value={formik.values.password}
                         handleChange={formik.handleChange}
-                        handleBlur={formik.handleBlur}
                         error={Boolean(formik.touched.password && formik.errors.password)}
                         helperText={formik.errors.password}
                     />
@@ -95,7 +94,6 @@ const SignupForm = () => {
                         name="confirmPassword"
                         value={formik.values.confirmPassword}
                         handleChange={formik.handleChange}
-                        handleBlur={formik.handleBlur}
                         error={Boolean(formik.touched.confirmPassword && formik.errors.confirmPassword)}
                         helperText={formik.errors.confirmPassword}
                     />

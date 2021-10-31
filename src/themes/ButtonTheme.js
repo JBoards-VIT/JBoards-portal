@@ -4,6 +4,9 @@ let ButtonTheme = createTheme({
         primary: {
             main: '#75cfb8',
         },
+        text: {
+            primary: "#fff"
+        }
     },
 });
 
