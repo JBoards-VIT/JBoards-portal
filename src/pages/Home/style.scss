@@ -54,6 +54,19 @@
 .schedule > span {
   color: $text-secondary;
 }
+.addProject {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.addProject > span {
+  margin-top: 10px;
+  color: $text-primary;
+  font-size: 16px;
+}
 @media screen and (max-width: 1200px) {
   .projects__head h1,
   .schedule h1 {

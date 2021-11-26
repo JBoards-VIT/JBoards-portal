@@ -1,0 +1,40 @@
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+  position: relative;
+}
+.cardInfo_box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.cardInfo_box_title {
+  font-weight: bold;
+  font-size: 1.3rem;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.cardInfo_box_body {
+  width: fit-content;
+}
+.cardInfo_box_colors {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.cardInfo_box_colors li {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  list-style: none;
+  transition: 200ms;
+}
+.cardInfo_box_colors .active {
+  box-shadow: 0 0 0 5px #dbd0c0;
+}
+.cardInfo_box_progress-bar {
+  width: 100%;
+}

@@ -7,9 +7,68 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import CalendarPicker from '@mui/lab/CalendarPicker';
 import ScheduleCard from '../../components/ScheduleCard';
 import TextField from '@mui/material/TextField';
-
+import { Link } from "react-router-dom"
+import AddIcon from '@mui/icons-material/Add';
 const Home = () => {
     const [date, setDate] = useState(new Date());
+    const projects = [
+        {
+            name: "DWS Project",
+            colorCode: "#142d4c",
+            members: 4,
+        },
+        {
+            name: "IWP Project",
+            colorCode: "#75cfb8",
+            members: 4,
+        },
+        {
+            name: "ISAA Project",
+            colorCode: "#385170",
+            members: 2,
+        },
+        {
+            name: "IIP Project",
+            colorCode: "#9fa2a6",
+            members: 10,
+        },
+        {
+            name: "AI Project",
+            colorCode: "#403c49",
+            members: 6,
+        },
+        {
+            name: "PDC Project",
+            colorCode: "#9fa2a6",
+            members: 4,
+        },
+    ]
+    const schedules = [
+        {
+            project_name: "DWS Project",
+            name: "Meeting Backend Team",
+            time: "09:00 AM",
+            color: "#75cfb8"
+        },
+        {
+            project_name: "DWS Project",
+            name: "Meeting Backend Team",
+            time: "09:00 AM",
+            color: "#75cfb8"
+        },
+        {
+            project_name: "DWS Project",
+            name: "Meeting Backend Team",
+            time: "09:00 AM",
+            color: "#75cfb8"
+        },
+        {
+            project_name: "DWS Project",
+            name: "Meeting Backend Team",
+            time: "09:00 AM",
+            color: "#75cfb8"
+        },
+    ]
     useEffect(() => {
         document.title = "Home";
     }, [])
@@ -22,13 +81,19 @@ const Home = () => {
                         <h1>Project Teams</h1>
                     </div>
                     <div className="projects__content">
-                        <ProjectCard />
-                        <ProjectCard />
-                        <ProjectCard />
-                        <ProjectCard />
-                        <ProjectCard />
-                        <ProjectCard />
-                        <ProjectCard />
+                        <Link to={`/project/addproject`}>
+                            <AddProject />
+                        </Link>
+                        {projects.map((project) => (
+                            <Link to={`/project/${project.name}`}>
+                                <ProjectCard
+                                    key={project.name}
+                                    name={project.name}
+                                    color={project.colorCode}
+                                    members={project.members}
+                                />
+                            </Link>
+                        ))}
                     </div>
                 </div>
                 <div className="schedule">
@@ -44,16 +109,30 @@ const Home = () => {
                     </LocalizationProvider>
                     <h1>Schedule</h1>
                     <span>{date.getDate()} {date.toLocaleString('default', { month: 'long' })}</span>
-                    <ScheduleCard />
-                    <ScheduleCard />
-                    <ScheduleCard />
-                    <ScheduleCard />
-                    <ScheduleCard />
-                    <ScheduleCard />
+                    {
+                        schedules.map((schedule, index) => (
+                            <ScheduleCard
+                                key={index}
+                                name={schedule.name}
+                                project_name={schedule.project_name}
+                                color={schedule.color}
+                                time={schedule.time}
+                            />
+                        ))
+                    }
                 </div>
             </div>
         </div>
     )
 }
+
+const AddProject = () => (
+    <div className="projectCard">
+        <div className="addProject">
+            <AddIcon fontSize="large" />
+            <span>Add Project</span>
+        </div>
+    </div>
+)
 
 export default Home;

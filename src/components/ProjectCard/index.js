@@ -3,12 +3,12 @@ import React from 'react'
 import "./style.scss"
 import AvatarGroup from '@mui/material/AvatarGroup';
 
-const ProjectCard = () => {
+const ProjectCard = ({ name, color, members }) => {
     return (
         <div className="projectCard">
             <div className="projectCard__details">
-                <Avatar sx={{ width: 40, height: 40, bgcolor: "#142d4c", border: 0 }}>D</Avatar>
-                <h1>DWS Project</h1>
+                <Avatar sx={{ width: 40, height: 40, bgcolor: color, border: 0 }}>{name[0]}</Avatar>
+                <h1>{name}</h1>
             </div>
             <div className="projectCard__members">
                 <div>
@@ -23,13 +23,12 @@ const ProjectCard = () => {
                         }}
                         max={3}
                     >
-                        <Avatar alt="Remy Sharp" />
-                        <Avatar alt="Travis Howard" />
-                        <Avatar alt="Travis Howard" />
-                        <Avatar alt="Travis Howard" />
+                        {Array.apply(0, Array(members)).map((x, i) => (
+                            <Avatar key={String(i)} alt={String(i)} />
+                        ))}
                     </AvatarGroup>
                 </div>
-                <span>3 people</span>
+                <span>{members} people</span>
             </div>
         </div>
     )

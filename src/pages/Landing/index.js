@@ -11,6 +11,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import ListIcon from '@mui/icons-material/List';
 import Typical from 'react-typical'
+import { Link } from 'react-router-dom'
 const Landing = () => {
     useEffect(() => {
         document.title = "JBoards"
@@ -60,14 +61,16 @@ const Landing = () => {
                             <Typical
                                 steps={['Collaborative !', 2000, 'Organized !', 2500]}
                                 loop={Infinity}
-                                wrapper="h1"
+                                wrapper="div"
                             />
                         </h1>
                         <p>JBoards helps you manage J Components and save you all that pain.</p>
-                        <CustomButton
-                            label="Get Started"
-                            variant="contained"
-                        />
+                        <Link to="/signup">
+                            <CustomButton
+                                label="Get Started"
+                                variant="contained"
+                            />
+                        </Link>
                     </div>
                     <div className="landing__body-right">
                         <Lottie
@@ -80,14 +83,16 @@ const Landing = () => {
                 </div>
             </div>
             <div className="intro">
-                {intro.map((intro_element, index) => (
-                    <IntroSection
-                        key={index}
-                        icon={intro_element.icon}
-                        title={intro_element.title}
-                        description={intro_element.description}
-                    />
-                ))}
+                <div className="intro_sections">
+                    {intro.map((intro_element, index) => (
+                        <IntroSection
+                            key={index}
+                            icon={intro_element.icon}
+                            title={intro_element.title}
+                            description={intro_element.description}
+                        />
+                    ))}
+                </div>
             </div>
             <div className="features">
                 <div className="features__header">
@@ -100,24 +105,25 @@ const Landing = () => {
                         animation={feature_element.animation}
                         title={feature_element.title}
                         description={feature_element.description}
-                        reverse={index % 2 === 0 ? false : true}
                     />
                 ))}
             </div>
             <div className="get_started">
                 <span>GET STARTED</span>
                 <h2>Get Started with JBoards today</h2>
-                <CustomButton
-                    label="Get Started"
-                    variant="contained"
-                />
+                <Link to="/signup">
+                    <CustomButton
+                        label="Get Started"
+                        variant="contained"
+                    />
+                </Link>
             </div>
             <hr />
             <div className="footer">
                 <span>&copy; JBoards. {new Date().getFullYear()}. All Rights Reserved.</span>
                 <p>When you visit or interact with our sites, services or tools, we or our authorised service providers may use cookies for storing information to help provide you with a better, faster and safer experience and for marketing purposes.</p>
             </div>
-        </div>
+        </div >
     )
 }
 
@@ -139,7 +145,7 @@ const IntroSection = ({ icon, title, description }) => {
 
 const FeaturesSection = ({ animation, title, description, reverse = false }) => {
     return (
-        <div className="featuresSection" style={reverse ? { flexDirection: 'row-reverse' } : null}>
+        <div className="featuresSection">
             <div className="featuresSection-left">
                 <Lottie
                     loop

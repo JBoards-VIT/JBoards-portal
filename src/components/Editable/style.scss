@@ -1,0 +1,30 @@
+.editable {
+  width: 100%;
+}
+.editable_display {
+  background-color: #f8f8f8;
+  border-radius: 3px;
+  padding: 15px;
+  cursor: default;
+  text-align: center;
+}
+.editable_display:hover {
+  background: #ccc;
+}
+.editable_edit {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0px;
+}
+.editable_edit_footer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: -20px;
+}
+.editable_edit_footer svg {
+  width: 35px;
+  height: 35px;
+}

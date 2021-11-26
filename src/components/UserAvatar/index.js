@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import HomeIcon from '@mui/icons-material/Home';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from "react-router-dom";
@@ -41,6 +42,12 @@ const UserAvatar = () => {
                     sx: {
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                        '& a': {
+                            color: "#403c49"
+                        },
+                        "& .MuiMenuItem-root": {
+                            color: "#403c49"
+                        },
                         mt: 1.5,
                         '& .MuiAvatar-root': {
                             width: 32,
@@ -65,32 +72,27 @@ const UserAvatar = () => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem>
-                    <Link to="/home">
+                <Link to="/home">
+                    <MenuItem>
+                        <ListItemIcon>
+                            <HomeIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Home</ListItemText>
+                    </MenuItem>
+                </Link>
+                <Link to="/settings">
+                    <MenuItem>
                         <ListItemIcon>
                             <Settings fontSize="small" />
                         </ListItemIcon>
-                        Home
-                    </Link>
-                </MenuItem>
-                <MenuItem>
-                    <ListItemIcon>
-                        <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Settings
-                </MenuItem>
-                <Divider />
-                <MenuItem>
-                    <ListItemIcon>
-                        <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Settings
-                </MenuItem>
+                        <ListItemText>Settings</ListItemText>
+                    </MenuItem>
+                </Link>
                 <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
-                    Logout
+                    <ListItemText>Logout</ListItemText>
                 </MenuItem>
             </Menu>
         </div>

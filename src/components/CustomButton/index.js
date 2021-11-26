@@ -11,10 +11,6 @@ const CustomButton = ({ onPress, label, variant = "outlined" }) => {
                     size="large"
                     variant={variant}
                     sx={{
-                        "& .MuiButton-sizeLarge": {
-                            height: 50,
-                            fontWeight: 800,
-                        },
                         "& .MuiSvgIcon-root:hover": {
                             color: "primary.main"
                         },

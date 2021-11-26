@@ -21,6 +21,9 @@
   align-items: flex-start;
   justify-content: center;
 }
+.mobileProjectCard__details p {
+  color: $text-primary;
+}
 .mobileProjectCard__details span {
   font-size: 14px;
   color: $text-secondary;

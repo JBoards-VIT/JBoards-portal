@@ -21,17 +21,18 @@ const Nav = () => {
 const NavOptions = () => {
     return (
         <div className="nav__options">
-            <Link to="/">
-                <span>Home</span>
-            </Link>
             <Link to="/login">
                 <span>Login</span>
             </Link>
-            <Link to="/signup">
-                <CustomButton
-                    label="Get Started"
-                />
-            </Link>
+            {
+                window.innerWidth > 576 && (
+                    <Link to="/signup">
+                        <CustomButton
+                            label="Get Started"
+                        />
+                    </Link>
+                )
+            }
         </div>
     )
 }

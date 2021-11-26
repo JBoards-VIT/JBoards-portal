@@ -15,12 +15,73 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import MobileDatePicker from '@mui/lab/MobileDatePicker';
 import TextFieldTheme from '../../themes/TextFieldTheme';
 import ScheduleCard from '../../components/ScheduleCard';
+import { Link } from 'react-router-dom';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+
+const projects = [
+    {
+        name: "DWS Project",
+        colorCode: "#142d4c",
+        members: 4,
+    },
+    {
+        name: "IWP Project",
+        colorCode: "#75cfb8",
+        members: 4,
+    },
+    {
+        name: "ISAA Project",
+        colorCode: "#385170",
+        members: 2,
+    },
+    {
+        name: "IIP Project",
+        colorCode: "#9fa2a6",
+        members: 10,
+    },
+    {
+        name: "AI Project",
+        colorCode: "#403c49",
+        members: 6,
+    },
+    {
+        name: "PDC Project",
+        colorCode: "#9fa2a6",
+        members: 4,
+    },
+]
+const schedules = [
+    {
+        project_name: "DWS Project",
+        name: "Meeting Backend Team",
+        time: "09:00 AM",
+        color: "#75cfb8"
+    },
+    {
+        project_name: "DWS Project",
+        name: "Meeting Backend Team",
+        time: "09:00 AM",
+        color: "#75cfb8"
+    },
+    {
+        project_name: "DWS Project",
+        name: "Meeting Backend Team",
+        time: "09:00 AM",
+        color: "#75cfb8"
+    },
+    {
+        project_name: "DWS Project",
+        name: "Meeting Backend Team",
+        time: "09:00 AM",
+        color: "#75cfb8"
+    },
+]
 const MobileHome = () => {
     useEffect(() => {
         document.title = "Home"
     }, [])
     const [value, setValue] = React.useState('1');
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -49,20 +110,41 @@ const MobileHome = () => {
                     <TabPanel value="2">{<Schedule />}</TabPanel>
                 </TabContext>
             </Box>
-        </div >
+        </div>
     )
 }
 
 const Project = () => {
     return (
         <div className="projects">
-            <MobileProjectCard />
-            <MobileProjectCard />
-            <MobileProjectCard />
-            <MobileProjectCard />
-            <MobileProjectCard />
-            <MobileProjectCard />
-        </div>
+            <div className="projects_list">
+                {projects.map((project) => (
+                    <Link key={project.name} to={`/project/${project.name}`}>
+                        <MobileProjectCard
+                            name={project.name}
+                            color={project.colorCode}
+                            members={project.members}
+                        />
+                    </Link>
+                ))
+                }
+            </div>
+            <ThemeProvider theme={ButtonTheme}>
+                <Fab
+                    sx={{
+                        position: "absolute",
+                        right: 25,
+                        bottom: 25,
+                    }}
+                    color="primary"
+                    aria-label="add"
+                    LinkComponent={Link}
+                    to="/project/add"
+                >
+                    <AddIcon />
+                </Fab>
+            </ThemeProvider>
+        </div >
 
     )
 }
@@ -92,8 +174,17 @@ const Schedule = () => {
                     />
                 </LocalizationProvider>
             </ThemeProvider>
-            <ScheduleCard />
-            <ScheduleCard />
+            {
+                schedules.map((schedule, index) => (
+                    <ScheduleCard
+                        key={index}
+                        name={schedule.name}
+                        project_name={schedule.project_name}
+                        color={schedule.color}
+                        time={schedule.time}
+                    />
+                ))
+            }
         </div>
     )
 }

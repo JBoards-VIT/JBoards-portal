@@ -11,6 +11,9 @@
   margin-bottom: 40px;
   cursor: pointer;
 }
+.projectCard:hover {
+  background-color: #f6f6f6;
+}
 .projectCard__details {
   height: 60%;
   display: flex;
@@ -20,6 +23,7 @@
   font-size: 25px;
   margin-left: 10px;
   font-weight: 300;
+  color: $text-primary;
 }
 .projectCard__members {
   background-color: $background-light;
