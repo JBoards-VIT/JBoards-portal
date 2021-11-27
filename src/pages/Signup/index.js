@@ -8,6 +8,8 @@ import "../Login/style.scss"
 import CustomPasswordField from '../../components/CustomPasswordField'
 import { useFormik } from 'formik'
 import * as Yup from "yup"
+import { useDispatch } from 'react-redux'
+import { login } from "../../redux/actions/Auth";
 
 const Signup = () => {
     useEffect(() => {
@@ -26,6 +28,7 @@ const Signup = () => {
 }
 
 const SignupForm = () => {
+    const dispatch = useDispatch();
     const initialValues = {
         name: '',
         email: '',
@@ -34,6 +37,7 @@ const SignupForm = () => {
     }
     const onSubmit = (values) => {
         console.log(values)
+        dispatch(login())
     }
     const validationSchema = Yup.object({
         name: Yup.string().required('Required'),
