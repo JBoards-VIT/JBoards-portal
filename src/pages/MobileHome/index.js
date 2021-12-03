@@ -139,7 +139,7 @@ const Project = () => {
                     color="primary"
                     aria-label="add"
                     LinkComponent={Link}
-                    to="/project/add"
+                    to="/project/addproject"
                 >
                     <AddIcon />
                 </Fab>
