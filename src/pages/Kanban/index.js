@@ -1,13 +1,56 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Board from "../../components/Board";
 import Editable from "../../components/Editable";
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { addBoard, changeCardPosition, changeBoardPosition } from "../../redux/actions/Board";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import axios from "../../axios";
 import "./style.scss";
+import { useParams } from 'react-router';
+import { setKanban } from '../../redux/actions/Board';
 const Kanban = () => {
-    const boards = useSelector(state => state.boards);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
+    const boards = useSelector(state => state.boards?.boards, shallowEqual)
+    const [kanbanId, setkanbanId] = useState(null)
+    const { id } = useParams()
+    useEffect(() => {
+        const getKanban = () => {
+            const config = {
+                headers: {
+                    "x-auth-token": localStorage.getItem("authToken")
+                }
+            }
+            axios.get(`/kanban/get-kanban/${id}`, config).then((response) => {
+                if (response.data.status === "success") {
+                    dispatch(setKanban(response.data.result))
+                    setkanbanId(response.data.result.kanbanId)
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
+        getKanban()
+    }, [id, dispatch, boards])
+    const AddBoard = (title) => {
+        return (dispatch) => {
+            const config = {
+                headers: {
+                    "x-auth-token": localStorage.getItem("authToken")
+                }
+            }
+            const data = {
+                name: title,
+                kanbanId: kanbanId
+            }
+            axios.post("/kanban/board/create", data, config).then((response) => {
+                if (response.data.status === "success") {
+                    dispatch(addBoard(response.data.result))
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
+    }
     const handleDragEnd = (result) => {
         const { destination, source, type } = result;
         if (!destination) return;
@@ -21,13 +64,15 @@ const Kanban = () => {
                 <DragDropContext
                     onDragEnd={(result) => handleDragEnd(result)}
                 >
-                    <Droppable key={"boards"} droppableId="all-columns" direction="horizontal" type="columns">
+                    {boards ? (<Droppable key={"boards"} droppableId="all-columns" direction="horizontal" type="columns">
                         {(provided) => (
                             <div className="Kanban__boards" {...provided.droppableProps} ref={provided.innerRef}>
-                                {boards.map((board, index) => (
+                                {boards?.map((board, index) => (
                                     <Board
-                                        key={board._id}
+                                        key={board?._id}
+                                        board={board}
                                         boardIndex={index}
+                                        kanbanId={kanbanId}
                                     />
                                 ))}
                                 {provided.placeholder}
@@ -36,12 +81,12 @@ const Kanban = () => {
                                         hasValue={false}
                                         text="Add Board"
                                         label="Board Title"
-                                        onSubmit={(value) => dispatch(addBoard(value))}
+                                        onSubmit={(value) => dispatch(AddBoard(value))}
                                     />
                                 </div>
                             </div>
                         )}
-                    </Droppable>
+                    </Droppable>) : <></>}
                 </DragDropContext>
             </div>
         </div>

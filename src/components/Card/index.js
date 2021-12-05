@@ -18,9 +18,10 @@ import Fade from '@mui/material/Fade';
 import CardInfo from "../CardInfo";
 import { ThemeProvider } from "@emotion/react";
 import ChipTheme from "../../themes/ChipTheme";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { removeCard } from "../../redux/actions/Board";
 import { format } from 'date-fns'
+import axios from "../../axios";
 
 export default function Card(props) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -35,16 +36,34 @@ export default function Card(props) {
     const handleModalOpen = () => setShowModal(true);
     const handleModalClose = () => setShowModal(false);
     const dispatch = useDispatch();
-    const card = useSelector(state => state.boards[props.boardIndex].cards[props.cardIndex])
+    const RemoveCard = (cardId, boardId) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            cardId,
+            boardId,
+            kanbanId: props?.kanbanId
+        }
+        axios.post("/kanban/card/delete", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(removeCard(cardId, boardId))
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
     return (
-        <Draggable key={card.id} draggableId={String(card.id)} index={props.cardIndex}>
+        <Draggable key={props?.card?._id} draggableId={String(props?.card?._id)} index={props.cardIndex}>
             {(provided) => (
                 <div className="Card"  {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                     <div className="card_top">
                         <ThemeProvider theme={ChipTheme}>
                             <div className="card_top_labels">
-                                {card?.labels.map((label) => (
-                                    <Chip key={label.text} label={label.text} color={label.color} />
+                                {props?.card?.labels?.map((label) => (
+                                    <Chip key={label?.text} label={label?.text} color={label?.color} />
                                 ))}
                             </div>
                         </ThemeProvider>
@@ -70,7 +89,7 @@ export default function Card(props) {
                                 <MenuItem onClick={() => {
                                     let flag = window.confirm("Do you want to remove this card ?")
                                     if (flag) {
-                                        dispatch(removeCard(card?.id, props.boardId))
+                                        RemoveCard(props?.card?._id, props.boardId)
                                     }
                                 }}>
                                     <ListItemIcon>
@@ -81,18 +100,18 @@ export default function Card(props) {
                             </Menu>
                         </div>
                     </div>
-                    <div className="card_title">{card?.title}</div>
-                    {card?.date || card?.tasks.length !== 0 ? (<div className="card_footer">
-                        {card?.date && (
+                    <div className="card_title">{props?.card?.title}</div>
+                    {props?.card?.date || props?.card?.tasks?.length !== 0 ? (<div className="card_footer">
+                        {props?.card?.date && (
                             <p>
                                 <AccessTimeIcon />
-                                {format(card?.date, "do MMM")}
+                                {format(props?.card?.date, "do MMM")}
                             </p>
                         )}
-                        {card?.tasks.length !== 0 && (
+                        {props?.card?.tasks?.length !== 0 && (
                             <p>
                                 <CheckBoxIcon />
-                                {card.tasks.filter((task) => task.checked === true).length}/{card.tasks.length}
+                                {props?.card?.tasks?.filter((task) => task.completed === true).length}/{props?.card?.tasks?.length}
                             </p>
                         )
                         }

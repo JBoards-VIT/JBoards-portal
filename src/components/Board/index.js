@@ -14,8 +14,9 @@ import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import BoardInfo from "../BoardInfo";
+import { useDispatch } from "react-redux";
+import axios from "../../axios";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { useDispatch, useSelector } from "react-redux";
 import { removeBoard, addCard } from "../../redux/actions/Board";
 export default function Board(props) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -30,21 +31,57 @@ export default function Board(props) {
     const handleModalOpen = () => setShowModal(true);
     const handleModalClose = () => setShowModal(false);
     const dispatch = useDispatch();
-    const board = useSelector(state => state.boards[props.boardIndex]);
     const displayStyle = {
         backgroundColor: "#fff",
         borderRadius: "5px",
         width: "100%",
         boxShadow: "1px 2px 0px 1px rgba(0, 0, 0, 0.15)",
     }
+    const RemoveBoard = (boardId) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            boardId: boardId,
+            kanbanId: props?.kanbanId
+        }
+        axios.post("/kanban/board/delete", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(removeBoard(boardId))
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+    const AddCard = (title, boardId) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            title,
+            boardId: boardId,
+            kanbanId: props?.kanbanId
+        }
+        axios.post("/kanban/card/create", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(addCard(response.data.result, boardId))
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
     return (
-        <Draggable key={board._id} draggableId={board._id} index={props.boardIndex}>
+        <Draggable key={props?.board?._id} draggableId={props?.board?._id} index={props.boardIndex}>
             {(provided) => (
                 <div className="board" {...provided.draggableProps} ref={provided.innerRef}>
                     <div className="board_top" {...provided.dragHandleProps}>
                         <p className="board_text board_top_title">
-                            {board?.title}&nbsp;
-                            <span className="board_top_count">{board?.cards.length}</span>
+                            {props?.board?.title}&nbsp;
+                            <span className="board_top_count">{props?.board?.cards.length}</span>
                         </p>
                         <div>
                             <IconButton onClick={handleClick}>
@@ -68,7 +105,7 @@ export default function Board(props) {
                                 <MenuItem onClick={() => {
                                     let flag = window.confirm("Do you want to remove this board ?")
                                     if (flag) {
-                                        dispatch(removeBoard(board?.id))
+                                        RemoveBoard(props?.board?._id)
                                     }
                                 }}>
                                     <ListItemIcon>
@@ -79,30 +116,34 @@ export default function Board(props) {
                             </Menu>
                         </div>
                     </div>
-                    <Droppable droppableId={String(board?._id)} type="card">
-                        {
-                            (provided, snapshot) => (
-                                <div className="board_cards custom-scroll" ref={provided.innerRef} {...provided.droppableProps} style={snapshot.isDraggingOver ? { backgroundColor: "#ccc" } : null}>
-                                    {board?.cards.map((card, index) => (
-                                        <Card
-                                            key={card._id}
-                                            boardId={board?._id}
-                                            boardIndex={props.boardIndex}
-                                            cardIndex={index}
+                    {props?.board?.cards ?
+                        <Droppable droppableId={String(props?.board?._id)} type="card">
+                            {
+                                (provided, snapshot) => (
+                                    <div className="board_cards custom-scroll" ref={provided.innerRef} {...provided.droppableProps} style={snapshot.isDraggingOver ? { backgroundColor: "#ccc" } : null}>
+                                        {props?.board?.cards?.map((card, index) => (
+                                            <Card
+                                                key={card?._id}
+                                                boardId={props?.board?._id}
+                                                boardIndex={props.boardIndex}
+                                                cardIndex={index}
+                                                card={card}
+                                                kanbanId={props?.kanbanId}
+                                            />
+                                        ))}
+                                        {provided.placeholder}
+                                        <Editable
+                                            text="Add Card"
+                                            label="Card Title"
+                                            hasValue={false}
+                                            displayStyle={displayStyle}
+                                            onSubmit={(value) => AddCard(value, props?.board?._id)}
                                         />
-                                    ))}
-                                    {provided.placeholder}
-                                    <Editable
-                                        text="Add Card"
-                                        label="Card Title"
-                                        hasValue={false}
-                                        displayStyle={displayStyle}
-                                        onSubmit={(value) => dispatch(addCard(value, board?.id))}
-                                    />
-                                </div>
-                            )
-                        }
-                    </Droppable>
+                                    </div>
+                                )
+                            }
+                        </Droppable> : <></>
+                    }
                     <div>
                         <Modal
                             aria-labelledby="transition-modal-title"

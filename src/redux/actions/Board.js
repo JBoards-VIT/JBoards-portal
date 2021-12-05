@@ -1,8 +1,16 @@
-export const addBoard = (title) => {
+export const setKanban = (kanban) => {
+    return {
+        type: "INITIALIZE_KANBAN",
+        payload: {
+            kanban,
+        }
+    }
+}
+export const addBoard = (board) => {
     return {
         type: "ADD_BOARD",
         payload: {
-            title,
+            board,
         }
     }
 }
@@ -32,11 +40,11 @@ export const changeBoardTitle = (title, boardId) => {
         }
     }
 }
-export const addCard = (title, boardId) => {
+export const addCard = (card, boardId) => {
     return {
         type: "ADD_CARD",
         payload: {
-            title,
+            card,
             boardId,
         }
     }
@@ -129,11 +137,11 @@ export const deleteCardTask = (taskIndex, cardId, boardId) => {
         }
     }
 }
-export const toggleCardTask = (checked, taskIndex, cardId, boardId) => {
+export const toggleCardTask = (completed, taskIndex, cardId, boardId) => {
     return {
         type: "TOGGLE_CARD_TASK",
         payload: {
-            checked,
+            completed,
             taskIndex,
             cardId,
             boardId

@@ -50,10 +50,10 @@ function ProjectHome(props) {
                     document.title = response.data.result.project.name
                     setProjectDetails(response.data.result)
                 }
-                else {
-                    history.replace("*")
-                }
-            }).catch((error) => console.log(error))
+            }).catch((error) => {
+                console.log(error)
+                history.push("/*")
+            })
         }
         getProjectDetails()
     }, [id, dispatch, history])
