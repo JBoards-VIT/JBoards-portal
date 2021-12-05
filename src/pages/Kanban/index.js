@@ -21,12 +21,12 @@ const Kanban = () => {
                 <DragDropContext
                     onDragEnd={(result) => handleDragEnd(result)}
                 >
-                    <Droppable droppableId="all-columns" direction="horizontal" type="columns">
+                    <Droppable key={"boards"} droppableId="all-columns" direction="horizontal" type="columns">
                         {(provided) => (
                             <div className="Kanban__boards" {...provided.droppableProps} ref={provided.innerRef}>
                                 {boards.map((board, index) => (
                                     <Board
-                                        key={board.id}
+                                        key={board._id}
                                         boardIndex={index}
                                     />
                                 ))}

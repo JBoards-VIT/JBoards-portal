@@ -12,7 +12,12 @@ import CustomButton from "../../components/CustomButton"
 import CustomTextField from '../../components/CustomTextField'
 import { useFormik } from 'formik'
 import * as Yup from "yup"
+import axios from "../../axios"
 import "./style.scss"
+import { useHistory } from 'react-router';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const AddProject = () => {
     useEffect(() => {
@@ -64,11 +69,54 @@ const AddProjectTabs = () => {
 }
 
 const CreateProject = () => {
+    const history = useHistory()
     const initialValues = {
         'name': ""
     }
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const handleSnackbarOpen = () => {
+        setSnackbarOpen(true);
+    };
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
+        setSnackbarMessage("");
+    };
+    const action = (
+        <React.Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleSnackbarClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
     const onSubmit = (values) => {
-        console.log(values);
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            title: values.name
+        }
+        axios.post("/project/create", data, config).then((response) => {
+            if (response.data.status === "success") {
+                history.push("/home")
+            }
+            else {
+                setSnackbarMessage(response.data.errors[0].msg)
+                handleSnackbarOpen()
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
     }
     const validationSchema = Yup.object({
         name: Yup.string().required("Required")
@@ -95,16 +143,66 @@ const CreateProject = () => {
                 label="Create Project"
                 onPress={formik.handleSubmit}
             />
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                message={snackbarMessage}
+                action={action}
+            />
         </div>
     )
 }
 
 const JoinProject = () => {
+    const history = useHistory()
     const initialValues = {
         'code': ""
     }
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const handleSnackbarOpen = () => {
+        setSnackbarOpen(true);
+    };
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
+        setSnackbarMessage("");
+    };
+    const action = (
+        <React.Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleSnackbarClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
     const onSubmit = (values) => {
-        console.log(values);
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            accessCode: values.code
+        }
+        axios.post("/project/join", data, config).then((response) => {
+            if (response.data.status === "success") {
+                history.push("/home")
+            }
+            else {
+                setSnackbarMessage(response.data.errors[0].msg)
+                handleSnackbarOpen()
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
     }
     const validationSchema = Yup.object({
         code: Yup.string().required("Required")
@@ -130,6 +228,13 @@ const JoinProject = () => {
             <CustomButton
                 label="Join Project"
                 onPress={formik.handleSubmit}
+            />
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                message={snackbarMessage}
+                action={action}
             />
         </div>
     )

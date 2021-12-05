@@ -1,10 +1,10 @@
 const initialState = [
     {
-        id: String(Date.now() + Math.random() * 2),
+        _id: String(Date.now() + Math.random() * 2),
         title: "To Do",
         cards: [
             {
-                id: String(Date.now() + Math.random()),
+                _id: String(Date.now() + Math.random()),
                 title: "Card 1",
                 tasks: [
                     {
@@ -30,7 +30,7 @@ const initialState = [
                 date: null
             },
             {
-                id: String(Date.now() + Math.random()),
+                _id: String(Date.now() + Math.random()),
                 title: "Card 1",
                 tasks: [],
                 labels: [
@@ -52,10 +52,14 @@ const initialState = [
 
 const boardReducer = (state = initialState, action) => {
     switch (action.type) {
+        case "INITIALIZE_BOARD": {
+            let newState = action.payload.boards
+            return newState
+        }
         case "ADD_BOARD": {
             let newState = [...state]
             newState.push({
-                id: String(Date.now() + Math.random() * 2),
+                _id: String(Date.now() + Math.random() * 2),
                 title: action.payload.title,
                 cards: [],
             })
@@ -81,7 +85,7 @@ const boardReducer = (state = initialState, action) => {
         case "ADD_CARD": {
             let newState = [...state]
             let card = {
-                id: Date.now() + Math.random(),
+                _id: Date.now() + Math.random(),
                 title: action.payload.title,
                 tasks: [],
                 labels: [],

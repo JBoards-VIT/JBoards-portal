@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Auth from '../../components/Auth'
 import signup from "../../assets/images/signup.svg"
 import CustomButton from "../../components/CustomButton"
@@ -10,6 +10,10 @@ import { useFormik } from 'formik'
 import * as Yup from "yup"
 import { useDispatch } from 'react-redux'
 import { login } from "../../redux/actions/Auth";
+import axios from "../../axios"
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Signup = () => {
     useEffect(() => {
@@ -35,10 +39,41 @@ const SignupForm = () => {
         password: '',
         confirmPassword: ''
     }
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const handleSnackbarOpen = () => {
+        setSnackbarOpen(true);
+    };
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
+        setSnackbarMessage("");
+    };
     const onSubmit = (values) => {
-        console.log(values)
-        dispatch(login())
+        axios.post("/auth/register", values).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(login(response.data.result.token, response.data.result.user))
+            }
+            else {
+                setSnackbarMessage(response.data.errors[0].msg)
+                handleSnackbarOpen()
+            }
+        }).catch((error) => console.log(error.message))
     }
+    const action = (
+        <React.Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleSnackbarClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
     const validationSchema = Yup.object({
         name: Yup.string().required('Required'),
         email: Yup.string().email('Invalid Email').required('Required'),
@@ -110,6 +145,13 @@ const SignupForm = () => {
             <div className="loginForm__labels">
                 <p>Already have an account ? <Link to="/login"><span>Sign In</span></Link></p>
             </div>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                message={snackbarMessage}
+                action={action}
+            />
         </div>
     )
 }

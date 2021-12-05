@@ -1,16 +1,16 @@
 import React from 'react'
 import "./style.scss"
 
-const ScheduleCard = ({ name, project_name, color, time }) => {
+const ScheduleCard = ({ schedule }) => {
     return (
         <div className="scheduleCard">
             <div className="scheduleCard__time">
-                <p>{time}</p>
+                <p>{schedule.deadline}</p>
             </div>
-            <div className="scheduleCard__divider" style={{ backgroundColor: color }}></div>
+            <div className="scheduleCard__divider" style={{ backgroundColor: "#" }}></div>
             <div className="scheduleCard__details">
-                <span>{project_name}</span>
-                <p>{name}</p>
+                <span>{schedule.project}</span>
+                <p>{schedule.title}</p>
             </div>
         </div>
     )

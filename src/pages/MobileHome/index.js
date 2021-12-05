@@ -18,65 +18,9 @@ import ScheduleCard from '../../components/ScheduleCard';
 import { Link } from 'react-router-dom';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import axios from "../../axios"
+import { format } from 'date-fns';
 
-const projects = [
-    {
-        name: "DWS Project",
-        colorCode: "#142d4c",
-        members: 4,
-    },
-    {
-        name: "IWP Project",
-        colorCode: "#75cfb8",
-        members: 4,
-    },
-    {
-        name: "ISAA Project",
-        colorCode: "#385170",
-        members: 2,
-    },
-    {
-        name: "IIP Project",
-        colorCode: "#9fa2a6",
-        members: 10,
-    },
-    {
-        name: "AI Project",
-        colorCode: "#403c49",
-        members: 6,
-    },
-    {
-        name: "PDC Project",
-        colorCode: "#9fa2a6",
-        members: 4,
-    },
-]
-const schedules = [
-    {
-        project_name: "DWS Project",
-        name: "Meeting Backend Team",
-        time: "09:00 AM",
-        color: "#75cfb8"
-    },
-    {
-        project_name: "DWS Project",
-        name: "Meeting Backend Team",
-        time: "09:00 AM",
-        color: "#75cfb8"
-    },
-    {
-        project_name: "DWS Project",
-        name: "Meeting Backend Team",
-        time: "09:00 AM",
-        color: "#75cfb8"
-    },
-    {
-        project_name: "DWS Project",
-        name: "Meeting Backend Team",
-        time: "09:00 AM",
-        color: "#75cfb8"
-    },
-]
 const MobileHome = () => {
     useEffect(() => {
         document.title = "Home"
@@ -115,15 +59,30 @@ const MobileHome = () => {
 }
 
 const Project = () => {
+    const [projects, setProjects] = useState(null)
+    useEffect(() => {
+        const getProjects = () => {
+            axios.get("/users/projects", {
+                headers: {
+                    "x-auth-token": localStorage.getItem("authToken")
+                }
+            }).then((response) => {
+                if (response.data.status === "success") {
+                    setProjects(response.data.result.projects)
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
+        getProjects()
+    }, [])
     return (
         <div className="projects">
             <div className="projects_list">
-                {projects.map((project) => (
-                    <Link key={project.name} to={`/project/${project.name}`}>
+                {projects?.map((project) => (
+                    <Link key={project._id} to={`/project/${project._id}`}>
                         <MobileProjectCard
-                            name={project.name}
-                            color={project.colorCode}
-                            members={project.members}
+                            project={project}
                         />
                     </Link>
                 ))
@@ -144,13 +103,34 @@ const Project = () => {
                     <AddIcon />
                 </Fab>
             </ThemeProvider>
-        </div >
+        </div>
 
     )
 }
 
 const Schedule = () => {
     const [date, setDate] = useState(new Date())
+    const [schedules, setSchedules] = useState(null)
+    useEffect(() => {
+        const getDeadlines = () => {
+            const config = {
+                headers: {
+                    "x-auth-token": localStorage.getItem("authToken")
+                }
+            }
+            const data = {
+                deadline: format(date, "yyyy-MM-dd")
+            }
+            axios.post("/users/get-deadlines", data, config).then((response) => {
+                if (response.data.status === "success") {
+                    setSchedules(response.data.result.deadlines)
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
+        getDeadlines()
+    }, [date])
     return (
         <div className="mobileSchedule">
             <ThemeProvider theme={TextFieldTheme}>
@@ -175,15 +155,12 @@ const Schedule = () => {
                 </LocalizationProvider>
             </ThemeProvider>
             {
-                schedules.map((schedule, index) => (
+                schedules?.length > 0 ? schedules?.map((schedule, index) => (
                     <ScheduleCard
                         key={index}
-                        name={schedule.name}
-                        project_name={schedule.project_name}
-                        color={schedule.color}
-                        time={schedule.time}
+                        schedule={schedule}
                     />
-                ))
+                )) : (<p className="schedule_text">No Deadlines</p>)
             }
         </div>
     )

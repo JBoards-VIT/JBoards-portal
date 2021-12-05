@@ -38,7 +38,7 @@ export default function Board(props) {
         boxShadow: "1px 2px 0px 1px rgba(0, 0, 0, 0.15)",
     }
     return (
-        <Draggable key={board.id} draggableId={board.id} index={props.boardIndex}>
+        <Draggable key={board._id} draggableId={board._id} index={props.boardIndex}>
             {(provided) => (
                 <div className="board" {...provided.draggableProps} ref={provided.innerRef}>
                     <div className="board_top" {...provided.dragHandleProps}>
@@ -79,14 +79,14 @@ export default function Board(props) {
                             </Menu>
                         </div>
                     </div>
-                    <Droppable droppableId={String(board?.id)} type="card">
+                    <Droppable droppableId={String(board?._id)} type="card">
                         {
                             (provided, snapshot) => (
                                 <div className="board_cards custom-scroll" ref={provided.innerRef} {...provided.droppableProps} style={snapshot.isDraggingOver ? { backgroundColor: "#ccc" } : null}>
                                     {board?.cards.map((card, index) => (
                                         <Card
-                                            key={card.id}
-                                            boardId={board?.id}
+                                            key={card._id}
+                                            boardId={board?._id}
                                             boardIndex={props.boardIndex}
                                             cardIndex={index}
                                         />

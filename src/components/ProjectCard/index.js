@@ -2,13 +2,14 @@ import { Avatar } from '@mui/material'
 import React from 'react'
 import "./style.scss"
 import AvatarGroup from '@mui/material/AvatarGroup';
+import Tooltip from '@mui/material/Tooltip';
 
-const ProjectCard = ({ name, color, members }) => {
+const ProjectCard = ({ project }) => {
     return (
         <div className="projectCard">
             <div className="projectCard__details">
-                <Avatar sx={{ width: 40, height: 40, bgcolor: color, border: 0 }}>{name[0]}</Avatar>
-                <h1>{name}</h1>
+                <Avatar sx={{ width: 40, height: 40, bgcolor: "#75cfb8", border: 0 }}>{project.name[0]}</Avatar>
+                <h1>{project.name}</h1>
             </div>
             <div className="projectCard__members">
                 <div>
@@ -23,12 +24,14 @@ const ProjectCard = ({ name, color, members }) => {
                         }}
                         max={3}
                     >
-                        {Array.apply(0, Array(members)).map((x, i) => (
-                            <Avatar key={String(i)} alt={String(i)} />
+                        {project.members.map((member) => (
+                            <Tooltip key={member._id} title={member.name}>
+                                <Avatar alt={member.name} />
+                            </Tooltip>
                         ))}
                     </AvatarGroup>
                 </div>
-                <span>{members} people</span>
+                <span>{project.members.length} people</span>
             </div>
         </div>
     )

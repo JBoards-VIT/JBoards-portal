@@ -37,8 +37,9 @@
 .projects__content {
   flex: 1;
   min-height: 100%;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 .schedule {
@@ -53,6 +54,12 @@
 }
 .schedule > span {
   color: $text-secondary;
+}
+.schedule_text {
+  color: $text-secondary;
+  font-size: 16px;
+  margin-top: 24px;
+  text-align: center;
 }
 .addProject {
   display: flex;

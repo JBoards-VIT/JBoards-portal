@@ -17,6 +17,7 @@ import ProjectHome from "./pages/ProjectHome";
 import AddProject from "./pages/AddProject";
 import ChangePassword from "./pages/ChangePassword";
 import SettingsPage from "./pages/SettingsPage";
+
 function App() {
   const store = configureStore();
   return (

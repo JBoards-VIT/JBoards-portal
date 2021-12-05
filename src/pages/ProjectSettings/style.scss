@@ -1,0 +1,10 @@
+.projectSettings {
+  width: 60%;
+  margin: 20px;
+}
+@media screen and (max-width: 600px) {
+  .projectSettings {
+    margin: 0px;
+    width: 100%;
+  }
+}

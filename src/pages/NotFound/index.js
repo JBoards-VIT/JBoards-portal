@@ -2,9 +2,10 @@ import React, { useEffect } from 'react'
 import Logo from '../../components/Logo'
 import CustomButton from '../../components/CustomButton'
 import pageNotFound from "../../assets/images/pageNotFound.svg"
-import { Redirect } from 'react-router'
+import { useHistory } from 'react-router'
 import "./style.scss"
 const NotFound = () => {
+    const history = useHistory()
     useEffect(() => {
         document.title = "404 Not Found"
     }, [])
@@ -21,8 +22,8 @@ const NotFound = () => {
                     <h1>Oops !</h1>
                     <p>Sorry, The page  you are looking for does not exist.</p>
                     <CustomButton
-                        onPress={() => { return <Redirect to="login" /> }}
-                        label="Go Back!"
+                        onPress={() => history.replace("/login")}
+                        label="Go Home!"
                     />
                 </div>
             </div>

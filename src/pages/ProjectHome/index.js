@@ -6,10 +6,8 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import DescriptionIcon from '@mui/icons-material/Description';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import UserAvatar from "../../components/UserAvatar";
@@ -20,25 +18,45 @@ import Tab from '@mui/material/Tab';
 import "./style.scss";
 import { Avatar } from '@mui/material';
 import { TabContext } from '@mui/lab';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import ProjectDashboard from '../ProjectDashboard';
-import ProjectMeetings from "../ProjectMeetings";
-import ProjectFiles from "../ProjectFiles";
 import ProjectSettings from "../ProjectSettings";
-
+import axios from "../../axios"
+import { useDispatch } from 'react-redux';
+import { setProject } from '../../redux/actions/Project';
 const drawerWidth = 240;
 
 function ProjectHome(props) {
+    const history = useHistory()
+    const dispatch = useDispatch()
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     let { id } = useParams();
+    const [projectDetails, setProjectDetails] = React.useState()
     const [value, setValue] = React.useState('0');
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
     React.useEffect(() => {
-        document.title = id;
-    }, [id])
+        const getProjectDetails = () => {
+            const config = {
+                headers: {
+                    "x-auth-token": localStorage.getItem("authToken")
+                }
+            }
+            axios.get(`/project/${id}`, config).then((response) => {
+                if (response.data.status === "success") {
+                    dispatch(setProject(response.data.result))
+                    document.title = response.data.result.project.name
+                    setProjectDetails(response.data.result)
+                }
+                else {
+                    history.replace("*")
+                }
+            }).catch((error) => console.log(error))
+        }
+        getProjectDetails()
+    }, [id, dispatch, history])
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
@@ -50,14 +68,6 @@ function ProjectHome(props) {
         {
             text: "Kanban Boards",
             icon: <AssessmentIcon />
-        },
-        {
-            text: "Meeting Planner",
-            icon: <CalendarTodayIcon />
-        },
-        {
-            text: "Files",
-            icon: <DescriptionIcon />
         },
         {
             text: "Settings",
@@ -166,7 +176,7 @@ function ProjectHome(props) {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <h3 className="appbar__title">{id}</h3>
+                        <h3 className="appbar__title">{projectDetails?.project?.name}</h3>
                         <Box sx={{ flexGrow: 1 }} />
                         <UserAvatar />
                     </Toolbar>
@@ -210,12 +220,6 @@ function ProjectHome(props) {
                         <Kanban />
                     </TabPanel>
                     <TabPanel value={value} index={"2"}>
-                        <ProjectMeetings />
-                    </TabPanel>
-                    <TabPanel value={value} index={"3"}>
-                        <ProjectFiles />
-                    </TabPanel>
-                    <TabPanel value={value} index={"4"}>
                         <ProjectSettings />
                     </TabPanel>
                 </div>

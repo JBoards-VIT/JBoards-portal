@@ -3,7 +3,6 @@ import Nav from "../../components/Nav"
 import Lottie from 'react-lottie-player'
 import homeJson from "../../assets/animations/home.json"
 import Kanban from "../../assets/animations/kanban.json"
-import OnlineMeeting from "../../assets/animations/online-meetings.json"
 import FileSharing from "../../assets/animations/file-sharing.json"
 import "./style.scss"
 import CustomButton from "../../components/CustomButton"
@@ -38,11 +37,6 @@ const Landing = () => {
             animation: Kanban,
             title: "Manage Tasks using Kanban Lists",
             description: "It helps in managing tasks in realtime and also look at other’s progress.",
-        },
-        {
-            animation: OnlineMeeting,
-            title: "Schedule Google Meets",
-            description: "Keep a track of all meetings through Google Calendar. So no more instant meetings.",
         },
         {
             animation: FileSharing,
@@ -143,7 +137,7 @@ const IntroSection = ({ icon, title, description }) => {
     )
 }
 
-const FeaturesSection = ({ animation, title, description, reverse = false }) => {
+const FeaturesSection = ({ animation, title, description }) => {
     return (
         <div className="featuresSection">
             <div className="featuresSection-left">

@@ -1,5 +1,5 @@
 import { Avatar, IconButton } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -9,10 +9,28 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from "react-router-dom";
 import { logout } from "../../redux/actions/Auth"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from "../../redux/actions/Auth"
+import axios from "../../axios"
 
 const UserAvatar = () => {
     const dispatch = useDispatch();
+    useEffect(() => {
+        const getUserDetails = () => {
+            const config = {
+                headers: {
+                    "x-auth-token": localStorage.getItem("authToken")
+                }
+            }
+            axios.get("/users", config).then((response) => {
+                if (response.data.status === "success") {
+                    dispatch(setUser(response.data.result))
+                }
+            }).catch((error) => console.log(error))
+        }
+        getUserDetails()
+    }, [dispatch])
+    const user = useSelector(state => state.auth.user)
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -25,7 +43,7 @@ const UserAvatar = () => {
         dispatch(logout())
     }
     const color = "#75cfb8"
-    const userLetter = "A"
+    const userLetter = user?.name[0]
     const avatarStyle = { width: 40, height: 40, bgcolor: `${color}55`, color: color, fontSize: 23 }
     return (
         <div>

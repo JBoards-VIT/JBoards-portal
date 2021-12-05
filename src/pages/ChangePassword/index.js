@@ -5,6 +5,8 @@ import CustomButton from "../../components/CustomButton"
 import CustomPasswordField from '../../components/CustomPasswordField'
 import { useFormik } from 'formik'
 import * as Yup from "yup"
+import axios from "../../axios";
+import { useHistory } from 'react-router';
 import "../Login/style.scss"
 
 const ChangePassword = () => {
@@ -24,12 +26,27 @@ const ChangePassword = () => {
 }
 
 const ChangePasswordForm = () => {
+    const history = useHistory();
     const initialValues = {
         password: '',
         confirmPassword: ''
     }
     const onSubmit = (values) => {
-        console.log(values)
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            password: values.password
+        }
+        axios.post("/users/change-password", data, config).then((response) => {
+            if (response.data.status === "success") {
+                history.push("/home")
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
     }
     const validationSchema = Yup.object({
         password: Yup.string().required('Required').min(8, "Min Length 8").matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, "Must Contain One Uppercase, One Lowercase, One Number and one special case Character"),
