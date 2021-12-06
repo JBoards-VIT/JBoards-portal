@@ -15,7 +15,7 @@ Check Out the Project Right here 👉🏼
 
 ## Development Stack
 
-![TechStack Banner](/src/assets/techstack.png)
+![TechStack Banner](/src/assets/images/techstack.png)
 
 - [React](https://reactjs.org/)
 - [Material - UI](https://material-ui.com/)
