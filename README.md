@@ -4,7 +4,7 @@
 
 > Online Project Management Tool - ReactJS Web Application
 
-## What is Covid19 Tracker ?
+## What is JBoards ?
 
 An Online Project Management Web Application Developed and Deployed using [React](https://reactjs.org/) for VIT J Components.
 
