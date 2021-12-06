@@ -63,7 +63,7 @@ export default function Card(props) {
                         <ThemeProvider theme={ChipTheme}>
                             <div className="card_top_labels">
                                 {props?.card?.labels?.map((label) => (
-                                    <Chip key={label?.text} label={label?.text} color={label?.color} />
+                                    <Chip key={label?._id} label={label?.title} color={label?.color} />
                                 ))}
                             </div>
                         </ThemeProvider>
@@ -89,7 +89,7 @@ export default function Card(props) {
                                 <MenuItem onClick={() => {
                                     let flag = window.confirm("Do you want to remove this card ?")
                                     if (flag) {
-                                        RemoveCard(props?.card?._id, props.boardId)
+                                        RemoveCard(props?.card?._id, props?.boardId)
                                     }
                                 }}>
                                     <ListItemIcon>
@@ -101,11 +101,11 @@ export default function Card(props) {
                         </div>
                     </div>
                     <div className="card_title">{props?.card?.title}</div>
-                    {props?.card?.date || props?.card?.tasks?.length !== 0 ? (<div className="card_footer">
-                        {props?.card?.date && (
+                    {props?.card?.deadlineDate || props?.card?.tasks?.length !== 0 ? (<div className="card_footer">
+                        {props?.card?.deadlineDate && (
                             <p>
                                 <AccessTimeIcon />
-                                {format(props?.card?.date, "do MMM")}
+                                {format(new Date(props?.card?.deadlineDate), "do MMM")}
                             </p>
                         )}
                         {props?.card?.tasks?.length !== 0 && (
@@ -130,10 +130,11 @@ export default function Card(props) {
                         >
                             <Fade in={showModal}>
                                 <CardInfo
-                                    boardId={props.boardId}
-                                    boardIndex={props.boardIndex}
-                                    cardIndex={props.cardIndex}
+                                    boardId={props?.boardId}
+                                    boardIndex={props?.boardIndex}
+                                    cardIndex={props?.cardIndex}
                                     close={handleModalClose}
+                                    card={props?.card}
                                 />
                             </Fade>
                         </Modal>

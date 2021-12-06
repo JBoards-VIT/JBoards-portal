@@ -24,14 +24,15 @@ import CloseIcon from '@mui/icons-material/Close';
 import { ThemeProvider } from "@emotion/react";
 import ChipTheme from "../../themes/ChipTheme";
 import Chip from "@mui/material/Chip";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { changeCardTitle, changeCardDesc, changeCardDate, addCardLabel, deleteCardLabel, addCardTask, deleteCardTask, toggleCardTask } from "../../redux/actions/Board";
+import axios from "../../axios"
+import { format } from "date-fns"
 
 const CardInfo = React.forwardRef((props, ref) => {
     const dispatch = useDispatch();
-    const card = useSelector(state => state.boards[props.boardIndex].cards[props.cardIndex])
     const [labelColor, setLabelColor] = useState("primary");
-    const [progress, setProgress] = React.useState((card?.tasks.filter((task) => task.checked === true).length / card?.tasks.length) * 100);
+    const [progress, setProgress] = React.useState((props?.card?.tasks.filter((task) => task.completed === true).length / props?.card?.tasks.length) * 100);
     const modalStyle = {
         position: 'absolute',
         top: '50%',
@@ -52,25 +53,158 @@ const CardInfo = React.forwardRef((props, ref) => {
     const editableStyle = {
         width: "280px",
     }
-    const handleToggle = (event, index) => {
-        dispatch(toggleCardTask(event.target.checked, index, card?.id, props.boardId))
-        changeProgress();
-    };
-    const changeProgress = () => {
-        let newChecked = card?.tasks.filter((task) => task.checked === true).length;
-        setProgress((newChecked / card?.tasks.length) * 100);
+    const changeProgress = (progress) => {
+        setProgress(progress);
     }
-    const deleteTask = (index) => {
-        dispatch(deleteCardTask(index, card?.id, props.boardId))
-        changeProgress()
-    }
-    const addTask = (title) => {
-        let newTask = {
-            title,
-            checked: false,
+    const handleToggle = (event, taskId, cardId) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
         }
-        dispatch(addCardTask(newTask, card?.id, props.boardId))
-        changeProgress()
+        const data = {
+            taskId,
+            cardId
+        }
+        axios.post("/kanban/card/tasks/toggle", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(toggleCardTask(response.data.result.completed, taskId, taskId, props?.boardId))
+                changeProgress(response.data.result.progress);
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    };
+    const deleteTask = (taskId, cardId, boardId) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            taskId,
+            cardId
+        }
+        axios.post("/kanban/card/tasks/delete", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(deleteCardTask(taskId, cardId, boardId))
+                changeProgress(response.data.result.progress)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+    const addTask = (title, cardId, boardId) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            title,
+            cardId
+        }
+        axios.post("/kanban/card/tasks/add", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(addCardTask(response.data.result.task, cardId, boardId))
+                changeProgress(response.data.result.progress)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+    const ChangeCardTitle = (title, cardId, boardId) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            title,
+            cardId
+        }
+        axios.post("/kanban/card/update/title", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(changeCardTitle(title, cardId, boardId))
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+    const ChangeCardDesc = (description, cardId, boardId) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            description,
+            cardId
+        }
+        axios.post("/kanban/card/update/description", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(changeCardDesc(description, cardId, boardId))
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+    const ChangeCardDeadline = (deadline, cardId, boardId) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const dateString = format(deadline, "yyyy-MM-dd")
+        const data = {
+            deadline: dateString,
+            cardId
+        }
+        axios.post("/kanban/card/update/deadline", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(changeCardDate(deadline, cardId, boardId))
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+    const AddCardLabel = (label, cardId, boardId) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            title: label.text,
+            color: label.color,
+            cardId
+        }
+        axios.post("/kanban/card/labels/add", data, config).then((response) => {
+            if (response.data.status === "success") {
+                console.log(response.data.result)
+                dispatch(addCardLabel(response.data.result, cardId, boardId))
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+    const RemoveCardLabel = (labelId, cardId, boardId) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            labelId,
+            cardId
+        }
+        axios.post("/kanban/card/labels/delete", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(deleteCardLabel(labelId, cardId, boardId))
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
     }
     const colors = [
         {
@@ -109,11 +243,11 @@ const CardInfo = React.forwardRef((props, ref) => {
                     </div>
                     <div className="cardInfo_box_body">
                         <Editable
-                            hasValue={card?.title ? true : false}
-                            text={card?.title || "Add Title"}
+                            hasValue={props?.card?.title ? true : false}
+                            text={props?.card?.title || "Add Title"}
                             label="Title"
                             editStyle={editableStyle}
-                            onSubmit={(value) => dispatch(changeCardTitle(value, card?.id, props.boardId))}
+                            onSubmit={(value) => ChangeCardTitle(value, props?.card?._id, props?.boardId)}
                         />
                     </div>
                 </div>
@@ -124,11 +258,11 @@ const CardInfo = React.forwardRef((props, ref) => {
                     </div>
                     <div className="cardInfo_box_body">
                         <Editable
-                            hasValue={card?.desc ? true : false}
-                            text={card?.desc || "Add Description"}
+                            hasValue={props?.card?.description ? true : false}
+                            text={props?.card?.description || "Add Description"}
                             label="Description"
                             editStyle={editableStyle}
-                            onSubmit={(value) => dispatch(changeCardDesc(value, card?.id, props.boardId))}
+                            onSubmit={(value) => ChangeCardDesc(value, props?.card?._id, props?.boardId)}
                         />
                     </div>
                 </div>
@@ -141,9 +275,9 @@ const CardInfo = React.forwardRef((props, ref) => {
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 label="Date"
-                                value={card?.date || new Date()}
+                                value={props?.card?.deadlineDate ? new Date(props?.card?.deadlineDate) : new Date()}
                                 onChange={(newDate) => {
-                                    dispatch(changeCardDate(newDate, card?.id, props.boardId));
+                                    ChangeCardDeadline(newDate, props?.card?._id, props?.boardId);
                                 }}
                                 renderInput={(params) =>
                                     <TextField {...params}
@@ -166,12 +300,12 @@ const CardInfo = React.forwardRef((props, ref) => {
                     </div>
                     <ThemeProvider theme={ChipTheme}>
                         <div className="cardInfo_box_colors">
-                            {card?.labels && card?.labels.map((label, index) => (
+                            {props?.card?.labels && props?.card?.labels.map((label, index) => (
                                 <Chip
-                                    key={index}
-                                    label={label.text}
+                                    key={label._id}
+                                    label={label.title}
                                     color={label.color}
-                                    onDelete={() => dispatch(deleteCardLabel(index, card?.id, props.boardId))}
+                                    onDelete={() => RemoveCardLabel(label._id, props?.card?._id, props?.boardId)}
                                 />
                             ))}
                         </div>
@@ -194,14 +328,14 @@ const CardInfo = React.forwardRef((props, ref) => {
                             label="Label Title"
                             text="Add Label"
                             editStyle={editableStyle}
-                            onSubmit={(value) => dispatch(addCardLabel(
+                            onSubmit={(value) => AddCardLabel(
                                 {
                                     text: value,
                                     color: labelColor
                                 },
-                                card?.id,
-                                props.boardId
-                            ))}
+                                props?.card?._id,
+                                props?.boardId
+                            )}
                         />
                     </div>
                 </div>
@@ -213,25 +347,24 @@ const CardInfo = React.forwardRef((props, ref) => {
                     <div className="cardInfo_box_progress-bar">
                         <LinearProgress variant="determinate" value={progress} />
                     </div>
-                    {card?.tasks && <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                        {card?.tasks.map((task, index) => {
+                    {props?.card?.tasks && <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                        {props?.card?.tasks?.map((task, index) => {
                             const labelId = `checkbox-list-label-${index}`;
-
                             return (
                                 <ListItem
-                                    key={index}
+                                    key={task._id}
                                     secondaryAction={
-                                        <IconButton edge="end" aria-label="delete" onClick={() => deleteTask(index)}>
+                                        <IconButton edge="end" aria-label="delete" onClick={() => deleteTask(task._id, props?.card?._id, props?.boardId)}>
                                             <DeleteIcon />
                                         </IconButton>
                                     }
                                     disablePadding
                                 >
-                                    <ListItemButton role={undefined} onClick={(event) => handleToggle(event, index)} dense>
+                                    <ListItemButton role={undefined} onClick={(event) => handleToggle(event, task._id, props?.card?._id)} dense>
                                         <ListItemIcon>
                                             <Checkbox
                                                 edge="start"
-                                                checked={task.checked}
+                                                checked={task.completed}
                                                 tabIndex={-1}
                                                 disableRipple
                                                 inputProps={{ 'aria-labelledby': labelId }}
@@ -250,7 +383,7 @@ const CardInfo = React.forwardRef((props, ref) => {
                             text="Add Task"
                             label="Task Title"
                             editStyle={editableStyle}
-                            onSubmit={(value) => addTask(value)}
+                            onSubmit={(value) => addTask(value, props?.card?._id, props?.boardId)}
                         />
                     </div>
                 </div>

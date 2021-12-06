@@ -4,12 +4,13 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import TitleIcon from '@mui/icons-material/Title';
 import Editable from "../Editable"
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { changeBoardTitle } from "../../redux/actions/Board";
 import "../CardInfo/style.scss";
+import axios from "../../axios"
+
 const BoardInfo = React.forwardRef((props, ref) => {
     const dispatch = useDispatch()
-    const board = useSelector(state => state.boards[props.boardIndex])
     const modalStyle = {
         position: 'absolute',
         top: '50%',
@@ -30,6 +31,25 @@ const BoardInfo = React.forwardRef((props, ref) => {
     const editableStyle = {
         width: "280px",
     }
+    const ChangeBoardTitle = (title, boardId) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            name: title,
+            boardId,
+            kanbanId: props?.kanbanId
+        }
+        axios.post("/kanban/board/update", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(changeBoardTitle(title, boardId))
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
     return (
         <Box {...props} ref={ref} sx={modalStyle}>
             <div className="cardInfo custom-scroll">
@@ -45,11 +65,11 @@ const BoardInfo = React.forwardRef((props, ref) => {
                     </div>
                     <div className="cardInfo_box_body">
                         <Editable
-                            hasValue={board?.title ? true : false}
-                            text={board?.title || "Add Title"}
+                            hasValue={props?.board?.title ? true : false}
+                            text={props?.board?.title || "Add Title"}
                             label="Title"
                             editStyle={editableStyle}
-                            onSubmit={(value) => dispatch(changeBoardTitle(value, board?.id))}
+                            onSubmit={(value) => ChangeBoardTitle(value, props?.board?._id)}
                         />
                     </div>
                 </div>

@@ -51,12 +51,52 @@ const Kanban = () => {
             })
         }
     }
+    const ChangeCardPosition = (source, destination) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            sourceBoardId: source.droppableId,
+            targetBoardId: destination.droppableId,
+            sourceCardIndex: source.index,
+            targetCardIndex: destination.index,
+            kanbanId: kanbanId
+        }
+        axios.post("/kanban/card/move", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(changeCardPosition(response.data.result))
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+    const ChangeBoardPosition = (source, destination) => {
+        const config = {
+            headers: {
+                "x-auth-token": localStorage.getItem("authToken")
+            }
+        }
+        const data = {
+            sourceBoardIndex: source.index,
+            targetBoardIndex: destination.index,
+            kanbanId: kanbanId
+        }
+        axios.post("/kanban/board/move", data, config).then((response) => {
+            if (response.data.status === "success") {
+                dispatch(changeBoardPosition(response.data.result))
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
     const handleDragEnd = (result) => {
         const { destination, source, type } = result;
         if (!destination) return;
         if (destination.droppableId === source.droppableId && destination.index === source.index) return;
-        if (type === "card") dispatch(changeCardPosition(source, destination));
-        else if (type === "columns") dispatch(changeBoardPosition(source, destination))
+        if (type === "card") ChangeCardPosition(source, destination);
+        else if (type === "columns") ChangeBoardPosition(source, destination);
     }
     return (
         <div className="Kanban">

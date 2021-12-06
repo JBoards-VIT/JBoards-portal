@@ -158,9 +158,11 @@ export default function Board(props) {
                         >
                             <Fade in={showModal}>
                                 <BoardInfo
-                                    boardId={props.boardId}
+                                    boardId={props?.board?._id}
                                     boardIndex={props.boardIndex}
                                     close={handleModalClose}
+                                    kanbanId={props?.kanbanId}
+                                    board={props?.board}
                                 />
                             </Fade>
                         </Modal>

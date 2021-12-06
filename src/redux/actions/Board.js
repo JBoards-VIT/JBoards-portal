@@ -107,11 +107,11 @@ export const addCardLabel = (label, cardId, boardId) => {
         }
     }
 }
-export const deleteCardLabel = (labelIndex, cardId, boardId) => {
+export const deleteCardLabel = (labelId, cardId, boardId) => {
     return {
         type: "DELETE_CARD_LABEL",
         payload: {
-            labelIndex,
+            labelId,
             cardId,
             boardId
         }
@@ -127,22 +127,22 @@ export const addCardTask = (task, cardId, boardId) => {
         }
     }
 }
-export const deleteCardTask = (taskIndex, cardId, boardId) => {
+export const deleteCardTask = (taskId, cardId, boardId) => {
     return {
         type: "DELETE_CARD_TASK",
         payload: {
-            taskIndex,
+            taskId,
             cardId,
             boardId
         }
     }
 }
-export const toggleCardTask = (completed, taskIndex, cardId, boardId) => {
+export const toggleCardTask = (completed, taskId, cardId, boardId) => {
     return {
         type: "TOGGLE_CARD_TASK",
         payload: {
             completed,
-            taskIndex,
+            taskId,
             cardId,
             boardId
         }
