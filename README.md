@@ -11,7 +11,7 @@ An Online Project Management Web Application Developed and Deployed using [React
 It Provides Kanban and Project Group functionalities
 
 Check Out the Project Right here 👉🏼
-[Covid19 Tracker](https://jboards-cf509.web.app)
+[JBoards](https://jboards-cf509.web.app)
 
 ## Development Stack
 
