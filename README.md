@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+![JBoards Banner](/src/assets/images/banner.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# JBoards
 
-## Available Scripts
+> Online Project Management Tool - ReactJS Web Application
 
-In the project directory, you can run:
+## What is Covid19 Tracker ?
 
-### `npm start`
+An Online Project Management Web Application Developed and Deployed using [React](https://reactjs.org/) for VIT J Components.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+It Provides Kanban and Project Group functionalities
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Check Out the Project Right here 👉🏼
+[Covid19 Tracker](https://jboards-cf509.web.app)
 
-### `npm test`
+## Development Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![TechStack Banner](/src/assets/techstack.png)
 
-### `npm run build`
+- [React](https://reactjs.org/)
+- [Material - UI](https://material-ui.com/)
+- [Redux](https://redux.js.org/)
+- [React Beautiful DND](https://github.com/atlassian/react-beautiful-dnd)
+- [Axios](https://axios-http.com/)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Clone the Project
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+git clone https://github.com/JBoards-VIT/JBoards-portal
+```
 
-### `npm run eject`
+For successfully running the application the Node Dependencies are required.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Install all Node Packages
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm install package.json
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Developer
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+👨‍💻 Aryak Roy [@AryakRoy](https://github.com/AryakRoy)
 
-## Learn More
+## Show your support
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Give a ⭐ if you liked this project!
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contributions
 
-### Code Splitting
+- Feel Free to Open a PR/Issue for any feature or bug(s).
+- Make sure you follow the community guidelines!
+- Feel free to open an issue to ask a question/discuss anything about the Project.
+- Have a feature request? Open an Issue!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## License
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Copyright 2021 Aryak Roy
